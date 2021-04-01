@@ -1,0 +1,191 @@
+doctype html
+head
+  title Student registation form
+  link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
+  script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
+  script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
+  script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
+  script.
+    function o(id){return document.getElementById(id)}
+    var loadFile = function (event) {
+      var output = o('output');
+      output.src = URL.createObjectURL(event.target.files[0]);
+    };    
+    function Validtion() {
+      var valid = true;   
+
+      var firstname = o('fn').value;
+      if (firstname == ''){
+        o('firstname').innerHTML = "**please fill first name";  
+        valid = false;
+      }else 
+        o('firstname').innerHTML = " ";
+      
+      var lastname = o('ln').value;
+      if (lastname == '') {
+        o('lastname').innerHTML = "**please fill lastname";      
+        valid = false;
+      }else 
+        o('lastname').innerHTML = " ";
+      
+      var Email = o('Email').value;
+      if (Email == '' || !validateEmail(Email)){
+        o('gmail').innerHTML = "**please fill valid emailid";      
+        valid = false;
+      }else 
+        o('gmail').innerHTML = " ";
+      
+      var pass = o('pass').value;
+      if (pass == ''){
+        o('pw').innerHTML = "**please fill the password";      
+        valid = false;
+      }else if ((pass.length <= 5) || (pass.length > 20)){
+        o('pw').innerHTML = " ** Passwords length must be between  5 and 20";      
+        valid = false;
+      }else 
+        o('pw').innerHTML = " ";
+      
+      var cnpd = o('cnpd').value;
+      if (cnpd == ''){
+        o('conpass').innerHTML = "**please fill retype password";      
+        valid = false;
+      }else if (pass != cnpd){
+        o('conpass').innerHTML = " ** Password does not match the confirm password";
+        valid = false;
+      }else 
+        o('conpass').innerHTML = " ";
+      
+      var Mobile = o('Mobile').value;
+      if (Mobile == ''){
+        o('mnumber').innerHTML = "**please fill valid mobile number";      
+        valid = false;
+      }else if (isNaN(Mobile)){
+        o('mnumber').innerHTML = " ** user must write digits only not characters";      
+        valid = false;
+      }else if (Mobile.length != 10){
+        o('mnumber').innerHTML = " ** Mobile Number must be 10 digits only";      
+        valid = false;
+      }else 
+        o('mnumber').innerHTML = " ";
+
+      var g_arr = document.getElementsByName('gender');
+      if(g_arr[0].checked == false && g_arr[1].checked == false){
+        valid = false;
+        o('mole').innerHTML = " ** Select gender";      
+      }else{
+        o('mole').innerHTML = "";      
+      }
+      
+      if(valid){
+        o('registerform').submit();
+      }
+    }
+    function validateEmail(email) {
+        const re = /^(([^<>()[\]\\.,;:\s@"]+(\.[^<>()[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
+        return re.test(String(email).toLowerCase());
+    }
+    function empty() {
+    }
+  style.
+    * {
+    margin: 0;
+    padding: 0;
+    }
+    h2 {
+    margin-bottom: 26px;
+    padding-top: 26px;
+    color: red;
+    text-align: center;
+    text-transform: uppercase;
+    }
+    .required::after {
+    content: "*";
+    padding-left: 1%;
+    color: red;
+    }
+    label{
+      display:block
+    }
+.container
+  form#registerform(method='POST', action='/register')
+    .col-md-12.offset-md-1.p-6.ml-3.mr-3.mt-5.mb-5
+      h2 Registration page
+      .col-md-12
+        .row
+          .col-md-2
+            .form-group
+              label
+                | FIRST NAME:
+                span.required
+          .col-md-10
+            input#fn.form-control(type='text' name='first_name' autocomplete='off')
+            span#firstname.text-danger.font-weight-bold
+      .col-md-12
+        .row
+          .col-md-2
+            .form-group
+              label
+                | LAST NAME:
+                span.required
+          .col-md-10
+            input#ln.form-control(type='text' name='last_name' autocomplete='off')
+            span#lastname.text-danger.font-weight-bold
+      .col-md-12
+        .row
+          .col-md-2
+            .form-group
+              label
+                | EMAIL ID:
+                span.required
+          .col-md-10
+            input#Email.form-control(type='text' name='Email' autocomplete='off')
+            span#gmail.text-danger.font-weight-bold
+      .col-md-12
+        .row
+          .col-md-2
+            .form-group
+              label
+                | PASSWORD:
+                span.required
+          .col-md-10
+            input#pass.form-control(type='password' name='password' autocomplete='off')
+            span#pw.text-danger.font-weight-bold
+      .col-md-12
+        .row
+          .col-md-2
+            .form-group
+              label
+                | CONFIRM PASSWORD:
+                span.required
+          .col-md-10
+            input#cnpd.form-control(type='password' name='comfirm_password' autocomplete='off')
+            span#conpass.text-danger.font-weight-bold
+      .col-md-12
+        .row
+          .col-md-2
+            .form-group
+              label
+                | MOBILE:
+                span.required
+          .col-md-10
+            input#Mobile.form-control(type='text' name='Mobile_number' autocomplete='off')
+            span#mnumber.text-danger.font-weight-bold
+      .col-md-12
+        .row
+          .col-md-2
+            .form-group
+              label
+                | GENDER:
+                span.required
+          .col-md-10
+            input(type='radio' name='gender' value='male')
+            |  Male
+            input(type='radio' name='gender' value='female')
+            |  Female
+            span#mole.text-danger.font-weight-bold
+      .col-md-12
+        .row.text-center
+          .col-md-4
+            button.btn.btn-info(type='button' onclick='Validtion()') Submit
+          .col-md-0
+            button.btn.btn-danger(type='reset') Cancel

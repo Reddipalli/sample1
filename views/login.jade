@@ -1,0 +1,51 @@
+doctype html
+html(lang='en')
+	title Login form
+	link(rel='stylesheet' href='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css')
+	script(src='https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js')
+	script(src='https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js')
+	script(src='https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js')
+	body
+		.container.mt-5
+			.col-md-6.border(style="margin-top:30px;margin-left:25%;border: 2px solid #cccccc;box-shadow: 3px 3px #e6e6e6;border-radius: 10px;")
+				//-h3(style='margin-top: 20px; text-align: center;color:#D20A2B;text-shadow: 1px 1px 1px #D20A2B;') TOP
+				h4(style='margin-top: 20px; text-align: center;color:#000000;') Login
+				form(method='post')
+					.form-group
+						label(for='email') Email Address:
+						input.form-control(type='email', placeholder='Enter email',id="email", name='email')
+					.form-group
+						label(for='pwd') Password:
+						input.form-control(type='password', placeholder='Enter password',id="password", name='password')
+					.form-group.text-center
+						button.btn.btn-primary.mb-3.text-center(type='button',onclick="loginfun()") Submit
+					.form-group.text-center.mb-3
+						a(href="/register") Create new account
+		script.
+			function loginfun(){
+				var email = document.getElementById("email").value;
+				var password = document.getElementById("password").value;
+				if(email !='' && password !=''){
+					var loginobj={
+						email:email,
+						password:password
+					}
+					$.post('/studentlogin',{'email':email,'pass':password},function(data){
+						console.log(data);
+						var user = data.Obj;
+							if(data.status == 1){
+								if(user.role_id == 1){
+									window.location.href='/student';
+								}
+							}else{
+								alert(data.massage)
+							}
+					});
+				}else{
+					alert('please enter email and password')
+				}
+			}
+
+
+
+		

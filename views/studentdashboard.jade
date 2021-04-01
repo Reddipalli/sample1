@@ -1,0 +1,28 @@
+doctype html
+html(lang='en')
+	title Student Dashboard
+	head
+		style.
+			*{margin:0;padding:0}
+			h1{margin-bottom: 26px;padding-top: 26px;color: red;text-align: center;text-transform: uppercase;}
+			#center_div{width: 50%;margin: 0 10px}
+			#float_div{float: left;border: 1px solid #000;margin: 0 0 0 10px}
+			#float_div img{width: 140px;height: 140px;padding:10px}
+		script.
+			function o(id){return document.getElementById(id)}
+			function addmore(){
+				o('image_upload').insertAdjacentHTML("afterend",`<br><input type='file' name='imgUploader' />`);
+			}
+	body
+		h1 Student Image Dashboard
+		form(action='/upload_images', method='POST', enctype="multipart/form-data")
+			#center_div(style='margin: 10px auto')
+				#image_upload
+					input(type='file', name='imgUploader')
+					input(type='button', value="Add more", onclick='addmore()')
+				br
+				br
+				input(type='submit', value='Save', style='padding:5px 10px')
+		for imgs in images
+			#float_div
+				img(src=imgs.image_path.replace('public/', '').replace('public\\', ''))
